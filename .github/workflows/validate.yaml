@@ -5,7 +5,7 @@ on:
       - "**"
 
 jobs:
-  tf_version:
+  validator_and_formatter:
     runs-on: ubuntu-latest
     permissions:
       contents: read
