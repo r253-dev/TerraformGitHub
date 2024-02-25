@@ -14,7 +14,6 @@ provider "github" {
   read_delay_ms  = 0    # default: 0(ms)
 }
 
-# Create this terraform repository
 resource "github_repository" "terraform_github_repository" {
   name       = "TerraformGitHub"
   visibility = "public"
@@ -34,6 +33,28 @@ resource "github_branch_protection" "terraform_github_main" {
     strict   = true
     contexts = ["validator_and_formatter"]
   }
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews      = true
+    require_code_owner_reviews = true
+  }
+  require_conversation_resolution = true
+}
+
+resource "github_repository" "terraform_gcp_repository" {
+  name       = "TerraformGCP"
+  visibility = "public"
+
+  allow_auto_merge       = true  # default: false
+  allow_merge_commit     = true  # default: true
+  allow_rebase_merge     = false # default: true
+  allow_squash_merge     = true  # default: true
+  archived               = false # default: false
+  delete_branch_on_merge = true  # default: false
+}
+resource "github_branch_protection" "terraform_gcp_main" {
+  repository_id = github_repository.terraform_gcp_repository.id
+  pattern       = "main"
 
   required_pull_request_reviews {
     dismiss_stale_reviews      = true
