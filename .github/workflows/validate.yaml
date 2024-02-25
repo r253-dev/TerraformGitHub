@@ -2,7 +2,7 @@ name: Terraform Validator and Formatter
 on:
   pull_request:
     branches:
-      - main
+      - "**"
 
 jobs:
   tf_version:
