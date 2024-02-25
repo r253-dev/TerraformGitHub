@@ -26,6 +26,23 @@ resource "github_repository" "terraform_github_repository" {
   archived               = false # default: false
   delete_branch_on_merge = true  # default: false
 }
+resource "github_branch_protection" "terraform_github_main" {
+  repository_id = github_repository.terraform_github_repository.id
+  pattern       = "main"
+
+  required_status_checks {
+    strict   = true
+    contexts = ["validator_and_formatter"]
+  }
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews      = true
+    require_code_owner_reviews = true
+  }
+  require_conversation_resolution = true
+  allows_deletions                = false
+  allows_force_pushes             = false
+}
 
 resource "github_repository" "hello_world_repository" {
   name        = "HelloWorld"
