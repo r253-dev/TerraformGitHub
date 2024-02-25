@@ -1,0 +1,16 @@
+name: Terraform Formatter
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  tf_version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+      - run: terraform fmt -diff -check -recursive
+        working-directory: ./
