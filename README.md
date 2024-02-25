@@ -18,7 +18,7 @@ set the environment variable `GITHUB_TOKEN
 
 ```bash
 gh auth status -t
-GITHUB_TOKEN=your_token
+export GITHUB_TOKEN=your_token
 ```
 
 GitHuv provider offers multiple ways to authenticate with GitHub. You can find more information [here](https://registry.terraform.io/providers/integrations/github/latest/docs#authentication)
