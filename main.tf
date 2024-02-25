@@ -3,7 +3,7 @@ terraform {
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "~> 5.0"
+      version = "~> 6.0"
     }
   }
 }
@@ -40,8 +40,6 @@ resource "github_branch_protection" "terraform_github_main" {
     require_code_owner_reviews = true
   }
   require_conversation_resolution = true
-  allows_deletions                = false
-  allows_force_pushes             = false
 }
 
 resource "github_repository" "hello_world_repository" {
@@ -56,6 +54,16 @@ resource "github_repository" "hello_world_repository" {
   archived               = false # default: false
   delete_branch_on_merge = true  # default: false
 }
+resource "github_branch_protection" "hello_world_main" {
+  repository_id = github_repository.hello_world_repository.id
+  pattern       = "main"
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews      = true
+    require_code_owner_reviews = true
+  }
+  require_conversation_resolution = true
+}
 
 resource "github_repository" "react_template_repository" {
   name       = "ReactTemplate"
@@ -67,4 +75,14 @@ resource "github_repository" "react_template_repository" {
   allow_squash_merge     = true  # default: true
   archived               = false # default: false
   delete_branch_on_merge = true  # default: false
+}
+resource "github_branch_protection" "react_template_main" {
+  repository_id = github_repository.react_template_repository.id
+  pattern       = "main"
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews      = true
+    require_code_owner_reviews = true
+  }
+  require_conversation_resolution = true
 }
