@@ -56,6 +56,11 @@ resource "github_branch_protection" "terraform_gcp_main" {
   repository_id = github_repository.terraform_gcp_repository.id
   pattern       = "main"
 
+  required_status_checks {
+    strict   = true
+    contexts = ["validator_and_formatter"]
+  }
+
   required_pull_request_reviews {
     dismiss_stale_reviews      = true
     require_code_owner_reviews = true
