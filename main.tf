@@ -140,22 +140,36 @@ resource "github_repository" "nestjs_template_repository" {
   delete_branch_on_merge = true  # default: false
 }
 resource "github_branch_protection" "nestjs_template_production" {
-  repository_id = github_repository.nestjs_template_repository.id
-  pattern       = "production"
+  repository_id  = github_repository.nestjs_template_repository.id
+  pattern        = "production"
+  enforce_admins = true
+
+  required_status_checks {
+    strict   = true
+    contexts = ["lint (ubuntu-20.04, 20.11.1)", "test (ubuntu-20.04, 20.11.1)"]
+  }
 
   required_pull_request_reviews {
     dismiss_stale_reviews      = true
     require_code_owner_reviews = true
+    pull_request_bypassers     = ["/r253hmdryou"]
   }
   require_conversation_resolution = true
 }
 resource "github_branch_protection" "nestjs_template_develop" {
-  repository_id = github_repository.nestjs_template_repository.id
-  pattern       = "develop"
+  repository_id  = github_repository.nestjs_template_repository.id
+  pattern        = "develop"
+  enforce_admins = true
+
+  required_status_checks {
+    strict   = true
+    contexts = ["lint (ubuntu-20.04, 20.11.1)", "test (ubuntu-20.04, 20.11.1)"]
+  }
 
   required_pull_request_reviews {
     dismiss_stale_reviews      = true
     require_code_owner_reviews = true
+    pull_request_bypassers     = ["/r253hmdryou"]
   }
   require_conversation_resolution = true
 }
