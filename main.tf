@@ -14,6 +14,7 @@ provider "github" {
   read_delay_ms  = 0    # default: 0(ms)
 }
 
+# TerraformGitHub
 resource "github_repository" "terraform_github_repository" {
   name       = "TerraformGitHub"
   visibility = "public"
@@ -41,6 +42,7 @@ resource "github_branch_protection" "terraform_github_main" {
   require_conversation_resolution = true
 }
 
+# TerraformGCP
 resource "github_repository" "terraform_gcp_repository" {
   name       = "TerraformGCP"
   visibility = "public"
@@ -68,6 +70,7 @@ resource "github_branch_protection" "terraform_gcp_main" {
   require_conversation_resolution = true
 }
 
+# HelloWorld
 resource "github_repository" "hello_world_repository" {
   name        = "HelloWorld"
   description = "Hello World javascript"
@@ -91,6 +94,7 @@ resource "github_branch_protection" "hello_world_main" {
   require_conversation_resolution = true
 }
 
+# ReactTemplate
 resource "github_repository" "react_template_repository" {
   name       = "ReactTemplate"
   visibility = "public"
@@ -102,9 +106,52 @@ resource "github_repository" "react_template_repository" {
   archived               = false # default: false
   delete_branch_on_merge = true  # default: false
 }
-resource "github_branch_protection" "react_template_main" {
+resource "github_branch_protection" "react_template_production" {
   repository_id = github_repository.react_template_repository.id
-  pattern       = "main"
+  pattern       = "production"
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews      = true
+    require_code_owner_reviews = true
+  }
+  require_conversation_resolution = true
+}
+resource "github_branch_protection" "react_template_develop" {
+  repository_id = github_repository.react_template_repository.id
+  pattern       = "develop"
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews      = true
+    require_code_owner_reviews = true
+  }
+  require_conversation_resolution = true
+}
+
+# NestJSTemplate
+resource "github_repository" "nestjs_template_repository" {
+  name       = "NestJSTemplate"
+  visibility = "public"
+
+  allow_auto_merge       = true  # default: false
+  allow_merge_commit     = true  # default: true
+  allow_rebase_merge     = false # default: true
+  allow_squash_merge     = true  # default: true
+  archived               = false # default: false
+  delete_branch_on_merge = true  # default: false
+}
+resource "github_branch_protection" "nestjs_template_production" {
+  repository_id = github_repository.nestjs_template_repository.id
+  pattern       = "production"
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews      = true
+    require_code_owner_reviews = true
+  }
+  require_conversation_resolution = true
+}
+resource "github_branch_protection" "nestjs_template_develop" {
+  repository_id = github_repository.nestjs_template_repository.id
+  pattern       = "develop"
 
   required_pull_request_reviews {
     dismiss_stale_reviews      = true
